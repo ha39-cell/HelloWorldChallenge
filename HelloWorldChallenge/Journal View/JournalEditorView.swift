@@ -8,8 +8,42 @@
 import SwiftUI
 
 struct JournalEditorView: View {
+    @State var title = ""
+    @State var content = ""
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        NavigationStack {
+            
+        VStack(alignment: .leading) {
+            TextField("Title", text: $title)
+                .font(Theme.Fonts.headingL)
+            Text(Date().formatted(date: .numeric, time: .omitted))
+                .font(Theme.Fonts.captionS)
+                .foregroundStyle(Theme.Colors.textSecondary)
+            TextField("Type your Journal...", text: $content, axis: .vertical)
+            Spacer()
+        }
+        .padding()
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+
+                } label: {
+                    Image(systemName: Theme.Icons.close)
+                }
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+
+                } label: {
+                    Image(systemName: Theme.Icons.check)
+                }
+                .buttonStyle(.glassProminent)
+                .tint(Theme.Colors.accent)
+            }
+        }
+        }
+        .preferredColorScheme(.dark)
     }
 }
 
