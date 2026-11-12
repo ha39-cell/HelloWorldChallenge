@@ -11,7 +11,9 @@ struct MainPageView: View {
     
     @StateObject var viewModel = JournalViewModel()
     @State var showEditor = false
-    
+    // for the delete alert
+    @State var showDeleteAlert = false
+    @State var journalToDelete: JournalEntry?
     
     var body: some View {
         NavigationStack {
@@ -44,7 +46,8 @@ struct MainPageView: View {
                         // delete action connected to view model
                             .swipeActions {
                                         Button(role: .destructive) {
-                                            viewModel.deleteJournal(journal)
+                                            journalToDelete = journal
+                                            showDeleteAlert = true
                                         } label: {
                                             Image(systemName: "trash")
                                         }
@@ -81,6 +84,17 @@ struct MainPageView: View {
             // this wont work without its own model
             .sheet(isPresented: $showEditor) {
                 JournalEditorView(viewModel: viewModel)
+            }
+            //show the alert
+            .alert("Delete Journal?", isPresented: $showDeleteAlert) {
+                Button("Delete", role: .destructive) {
+                    if let journal = journalToDelete {
+                        viewModel.deleteJournal(journal)
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("Are you sure you want to delete this journal?")
             }
         }
         .preferredColorScheme(.dark)
