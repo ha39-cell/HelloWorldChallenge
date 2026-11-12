@@ -16,7 +16,7 @@ struct MainPageView: View {
     var body: some View {
         NavigationStack {
             //empty state
-        Group {
+            Group {
                 if viewModel.journals.isEmpty {
                     ContentUnavailableView {
                         Label {
@@ -41,38 +41,52 @@ struct MainPageView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                        // delete action connected to view model
+                            .swipeActions {
+                                        Button(role: .destructive) {
+                                            viewModel.deleteJournal(journal)
+                                        } label: {
+                                            Image(systemName: "trash")
+                                        }
+                                    }
                     }
                     
                     
-                    }
+                }
+                
+                
+                
+            }
+            
+            .navigationTitle("Journal")
+            .toolbarTitleDisplayMode(.inlineLarge)
+            .toolbar {
+                Menu {
+                    Button("Sort by Bookmark") { }
+                    Button("Sort by Entry Date") { }
+                } label: {
+                    Image(systemName: Theme.Icons.filter)
+                }
+                
+                Button {
+                    showEditor = true
+                } label: {
+                    Image(systemName: Theme.Icons.add)
+                    
                     
                     
                     
                 }
-            
-        .navigationTitle("Journal")
-        .toolbarTitleDisplayMode(.inlineLarge)
-        .toolbar {
-           Menu {
-                Button("Sort by Bookmark") { }
-                Button("Sort by Entry Date") { }
-                } label: {
-                Image(systemName: Theme.Icons.filter)
-                    }
-
-                    Button {
-                      showEditor = true
-                    } label: {
-                        Image(systemName: Theme.Icons.add)
-                    }
-      
-                    .preferredColorScheme(.dark)
             }
-    }
-    }
-    
+            // this wont work without its own model
+            .sheet(isPresented: $showEditor) {
+                JournalEditorView(viewModel: viewModel)
+            }
         }
-    
+        .preferredColorScheme(.dark)
+        
+    }
+}
 
 #Preview {
     MainPageView()

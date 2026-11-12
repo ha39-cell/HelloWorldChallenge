@@ -11,16 +11,13 @@ import Combine
 
 class JournalViewModel: ObservableObject {
     @Published var journals: [JournalEntry] = []
+    
+    func addJournal(title: String, content: String) {
+        let newJournal = JournalEntry(title: title, content: content, date: Date())
+        journals.insert(newJournal, at: 0)
+    }
+    
+    func deleteJournal(_ journal: JournalEntry) {           journals.removeAll { item in item.id == journal.id }    }
 }
     
 
-//import SwiftUI
-//import Combine
-//
-//class JournalViewModel: ObservableObject {
-//    @Published var journals: [JournalEntry] = [
-//        JournalEntry(title: "My Birthday", content: "Today was amazing!", date: Date(), isBookmarked: true),
-//        JournalEntry(title: "Today's Journal", content: "I learned SwiftUI today.", date: Date()),
-//        JournalEntry(title: "Great Day", content: "Went for a walk.", date: Date())
-//    ]
-//}
