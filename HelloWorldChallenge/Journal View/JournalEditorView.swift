@@ -7,6 +7,8 @@ struct JournalEditorView: View {
     @ObservedObject var viewModel: JournalViewModel
     @State var title = ""
     @State var content = ""
+    // to open the keyboard on the title 1
+    @FocusState var isTitleFocused: Bool
     
     // to close the page
     @Environment(\.dismiss) var dismiss                 // 👈 new: the close remote
@@ -16,13 +18,19 @@ struct JournalEditorView: View {
             VStack(alignment: .leading) {
                 TextField("Title", text: $title)
                     .font(Theme.Fonts.headingL)
+                // keyboard opend when type in Title
+                    .focused($isTitleFocused)
                 Text(Date().formatted(date: .numeric, time: .omitted))
                     .font(Theme.Fonts.captionS)
                     .foregroundStyle(Theme.Colors.textSecondary)
                 TextField("Type your Journal...", text: $content, axis: .vertical)
+
                 Spacer()
             }
             .padding()
+            .onAppear {
+                          isTitleFocused = true
+                      }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     //X action to close the screen

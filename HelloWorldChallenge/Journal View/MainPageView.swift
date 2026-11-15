@@ -14,7 +14,29 @@ struct MainPageView: View {
     // for the delete alert
     @State var showDeleteAlert = false
     @State var journalToDelete: JournalEntry?
-    
+    //bookmark filter activation 
+    @State var sortByBookmark = false
+    //  for search bar
+    @State var searchText = ""
+    // the list after sorting
+    var sortedJournals: [JournalEntry] {
+        if sortByBookmark {
+            return viewModel.journals.sorted { $0.isBookmarked && !$1.isBookmarked }
+        } else {
+            return viewModel.journals.sorted { $0.date > $1.date }
+        }
+    }
+    // the list after searching
+    var filteredJournals: [JournalEntry] {
+        if searchText.isEmpty {
+            return sortedJournals
+        } else {
+            return sortedJournals.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText) ||
+                $0.content.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
     var body: some View {
         NavigationStack {
             //empty state
@@ -38,8 +60,11 @@ struct MainPageView: View {
                     }
                     // journal state
                 } else {
-                    List(viewModel.journals) { journal in
-                        JournalCardView(entry: journal)
+                    // bookmark activation
+                    List(filteredJournals) { journal in
+                        JournalCardView(entry: journal, onBookmarkTap: {
+                            viewModel.toggleBookmark(journal)
+                        })
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
@@ -63,10 +88,13 @@ struct MainPageView: View {
             
             .navigationTitle("Journal")
             .toolbarTitleDisplayMode(.inlineLarge)
+            //typed letters goes into searchbar
+            .searchable(text: $searchText, prompt: "Search")
             .toolbar {
                 Menu {
-                    Button("Sort by Bookmark") { }
-                    Button("Sort by Entry Date") { }
+                    //activate the filter part3
+                    Button("Sort by Bookmark") { sortByBookmark = true }
+                       Button("Sort by Entry Date") { sortByBookmark = false }
                 } label: {
                     Image(systemName: Theme.Icons.filter)
                 }

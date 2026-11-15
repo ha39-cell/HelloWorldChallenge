@@ -9,7 +9,8 @@ import SwiftUI
 
 struct JournalCardView : View {
     var entry: JournalEntry
-    
+    // bookmark function
+    var onBookmarkTap: () -> Void = {}
     var body: some View {
      ZStack{
         VStack(alignment: .leading, spacing: 8) {
@@ -21,15 +22,18 @@ struct JournalCardView : View {
                     .foregroundStyle(Theme.Colors.textAccent)
                     .font(Theme.Fonts.titleCard)
                 Spacer()
+                //Bookmark only view
+                //                Image(systemName: entry.isBookmarked ? "bookmark.fill" : "bookmark")
+                //                    .foregroundStyle(Theme.Colors.textAccent)
                 //Bookmark
-                Image(systemName: entry.isBookmarked ? "bookmark.fill" : "bookmark")
-                    .foregroundStyle(Theme.Colors.textAccent)
-                
-                
-                
+                Button {
+                    onBookmarkTap()
+                } label: {
+                    Image(systemName: entry.isBookmarked ? "bookmark.fill" : "bookmark")
+                        .foregroundStyle(Theme.Colors.textAccent)
+                }
+                .buttonStyle(.plain)
             }
-      
-            
             //date
             Text(entry.date.formatted(date: .numeric, time: .omitted))
                 .foregroundStyle(Theme.Colors.textSecondary)

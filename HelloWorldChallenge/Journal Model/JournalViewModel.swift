@@ -45,7 +45,11 @@ class JournalViewModel: ObservableObject {
         }
     }
     
-    
+   // Bookmark function 
+    func toggleBookmark(_ journal: JournalEntry) {   if let index = journals.firstIndex(where: { $0.id == journal.id }) {
+            journals[index].isBookmarked.toggle()
+        }
+    }
     
 }
 
