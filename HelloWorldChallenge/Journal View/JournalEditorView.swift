@@ -50,6 +50,8 @@ struct JournalEditorView: View {
                     }
                     .buttonStyle(.glassProminent)
                     .tint(Theme.Colors.accent)
+                    //couldnsave without title
+                    .disabled(title.isEmpty)
                 }
             }
         }

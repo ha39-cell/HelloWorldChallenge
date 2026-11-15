@@ -88,8 +88,11 @@ struct MainPageView: View {
             
             .navigationTitle("Journal")
             .toolbarTitleDisplayMode(.inlineLarge)
+            
             //typed letters goes into searchbar
             .searchable(text: $searchText, prompt: "Search")
+            //searchable
+            .searchPresentationToolbarBehavior(.avoidHidingContent)
             .toolbar {
                 Menu {
                     //activate the filter part3
