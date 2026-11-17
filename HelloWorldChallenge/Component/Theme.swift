@@ -1,22 +1,24 @@
-//
-//  Theme.swift
-//  HelloWorldChallenge
-//
-//  Created by Haneen  on 10/11/2026.
-//
 import SwiftUI
 
 enum Theme {
 
     // MARK: - 01 Colors
     enum Colors {
-        static let accent          = Color(hex: 0x7F81FF) // Save button, active actions
-        static let textAccent      = Color(hex: 0xAF99FD) // Journal titles, empty-state heading
-        static let textPrimary     = Color(hex: 0xFFFFFF) // Main headings, journal content
-        static let textSecondary   = Color(hex: 0xA39A9A) // Entry dates
-        static let surface         = Color(hex: 0x1C1C1E) // Journal cards
-        static let backgroundColor      = Color(hex: 0x000000) // Main screen background
-        static let destructive     = Color(hex: 0xFD453C) // Delete action
+        //main purple
+        static let accent = Color("PrimaryAccent")
+        //light purple
+        static let textAccent = Color("TextAccent")
+        
+        // Main headings, journal content (black in light, white in dark)
+        static let textPrimary = Color.primary
+        // Entry dates (adapts to light and dark)
+        static let textSecondary = Color.secondary
+        // Journal cards (adapts to light and dark)
+        static let surface = Color(uiColor: .secondarySystemBackground)
+        // Main screen background (white in light, black in dark)
+        static let backgroundColor = Color(uiColor: .systemBackground)
+        // Delete action
+        static let destructive = Color.red
     }
 
     // MARK: - 02 Typography (SF Pro = the system font)

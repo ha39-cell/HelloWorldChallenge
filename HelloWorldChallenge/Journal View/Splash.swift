@@ -32,7 +32,7 @@ struct Splash: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.black)
             .task {
-                //
+                //let the page wait for 2 seconds and then the mainPage appear
                 try? await Task.sleep(for: .seconds(2))
                 withAnimation {
                     showMainPage = true

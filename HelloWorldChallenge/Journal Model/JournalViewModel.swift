@@ -51,6 +51,14 @@ class JournalViewModel: ObservableObject {
         }
     }
     
+    //edit journal 1
+    func updateJournal(_ journal: JournalEntry, title: String, content: String) {
+        if let index = journals.firstIndex(where: { $0.id == journal.id }) {
+            journals[index].title = title
+            journals[index].content = content
+        }
+    }
+    
 }
 
     

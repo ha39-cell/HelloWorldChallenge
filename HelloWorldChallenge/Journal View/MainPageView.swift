@@ -18,6 +18,8 @@ struct MainPageView: View {
     @State var sortByBookmark = false
     //  for search bar
     @State var searchText = ""
+    //journal i tap to edit
+    @State var journalToEdit: JournalEntry?
     // the list after sorting
     var sortedJournals: [JournalEntry] {
         if sortByBookmark {
@@ -65,9 +67,14 @@ struct MainPageView: View {
                         JournalCardView(entry: journal, onBookmarkTap: {
                             viewModel.toggleBookmark(journal)
                         })
+                       //tab card to edit it
+                        .onTapGesture {
+                            journalToEdit = journal                            }
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                        
+                        
                         // delete action connected to view model
                             .swipeActions {
                                         Button(role: .destructive) {
@@ -79,6 +86,10 @@ struct MainPageView: View {
                                     }
                     }
                     
+                  
+                    // Hide the default gray list background and use the app background
+                    .scrollContentBackground(.hidden)
+                    .background(Theme.Colors.backgroundColor)
                     
                 }
                 
@@ -93,6 +104,9 @@ struct MainPageView: View {
             .searchable(text: $searchText, prompt: "Search")
             //searchable
             .searchPresentationToolbarBehavior(.avoidHidingContent)
+            //voice icon in searchbar
+//            .searchDictationBehavior(.inline(activation: .onSelect))
+            
             .toolbar {
                 Menu {
                     //activate the filter part3
@@ -116,6 +130,11 @@ struct MainPageView: View {
             .sheet(isPresented: $showEditor) {
                 JournalEditorView(viewModel: viewModel)
             }
+            
+            // open the editor to edit a journal
+            .sheet(item: $journalToEdit) { journal in
+                JournalEditorView(viewModel: viewModel, journalToEdit: journal)
+            }
             //show the alert
             .alert("Delete Journal?", isPresented: $showDeleteAlert) {
                 Button("Delete", role: .destructive) {
@@ -128,7 +147,7 @@ struct MainPageView: View {
                 Text("Are you sure you want to delete this journal?")
             }
         }
-        .preferredColorScheme(.dark)
+       
         
     }
 }
