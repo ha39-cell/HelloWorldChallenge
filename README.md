@@ -28,5 +28,4 @@ Your thoughts, your story — a simple journal app for iPhone.
 3. Press **Cmd + R**
 
 ## Screenshots
-<img src="Screenshots/main.png" width="250"> <img src="Screenshots/editor.png" width="250">
-
+<img src="cover.png" width="700">
