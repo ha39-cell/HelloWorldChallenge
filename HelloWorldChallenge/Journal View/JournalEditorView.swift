@@ -1,13 +1,14 @@
 
+
 import SwiftUI
 
 struct JournalEditorView: View {
-    
+
     //to save the journal
     @ObservedObject var viewModel: JournalViewModel
     //edit journal 2
     var journalToEdit: JournalEntry? = nil
-    
+
     @State var title = ""
     @State var content = ""
     // to open the keyboard on the title 1
@@ -16,34 +17,37 @@ struct JournalEditorView: View {
     @State var showDiscardAlert = false
     // to close the page
     @Environment(\.dismiss) var dismiss
+
     // Checks whether the user has edited the title or content
     var hasChanges: Bool {
         title != (journalToEdit?.title ?? "") || content != (journalToEdit?.content ?? "")
     }
-    
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 TextField("Title", text: $title)
                     .font(Theme.Fonts.headingL)
-                // keyboard opend when type in Title
+                    // keyboard opened when type in Title
                     .focused($isTitleFocused)
+
                 Text(Date().formatted(date: .numeric, time: .omitted))
                     .font(Theme.Fonts.captionS)
                     .foregroundStyle(Theme.Colors.textSecondary)
+
                 TextField("Type your Journal...", text: $content, axis: .vertical)
 
                 Spacer()
             }
             .padding()
             .onAppear {
-                          isTitleFocused = true
+                isTitleFocused = true
                 // fill the old title and text if editing
                 if let journal = journalToEdit {
                     title = journal.title
                     content = journal.content
                 }
-                      }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     //X action to close the screen
@@ -58,27 +62,25 @@ struct JournalEditorView: View {
                         Image(systemName: Theme.Icons.close)
                     }
                 }
+
                 ToolbarItem(placement: .confirmationAction) {
-                    //this will save the journal after clicking ✓ called from the viewModel 
+                    //this will save the journal after clicking ✓ called from the viewModel
                     Button {
-        // update if editing, add if new
+                        // update if editing, add if new
                         if let journal = journalToEdit {
                             viewModel.updateJournal(journal, title: title, content: content)
                         } else {
                             viewModel.addJournal(title: title, content: content)
                         }
-                        
-                        
-                        
+                        dismiss()
                     } label: {
                         Image(systemName: Theme.Icons.check)
                     }
                     .buttonStyle(.glassProminent)
                     .tint(Theme.Colors.accent)
-                    //couldnsave without title
+                    //couldn't save without title
                     .disabled(title.isEmpty)
                 }
-          
             }
             // Ask before discarding unsaved changes
             .alert("Are you sure you want to discard changes on this journal?", isPresented: $showDiscardAlert) {
@@ -88,10 +90,9 @@ struct JournalEditorView: View {
                 Button("Keep Editing", role: .cancel) { }
             }
         }
-       
     }
 }
-// triale to be delete it
+
 #Preview {
     JournalEditorView(viewModel: JournalViewModel())
 }

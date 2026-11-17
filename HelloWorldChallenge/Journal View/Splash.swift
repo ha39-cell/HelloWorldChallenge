@@ -30,7 +30,7 @@ struct Splash: View {
                     .foregroundStyle(Theme.Colors.textSecondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.black)
+            .background(Theme.Colors.backgroundColor)
             .task {
                 //let the page wait for 2 seconds and then the mainPage appear
                 try? await Task.sleep(for: .seconds(2))
@@ -42,9 +42,6 @@ struct Splash: View {
     }
 }
 
-#Preview {
-    Splash()
-}
 #Preview {
     Splash()
 }
