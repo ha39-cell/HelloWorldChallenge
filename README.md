@@ -8,7 +8,6 @@ Your thoughts, your story — a simple journal app for iPhone.
 - Sort by bookmark or by date
 - Search by title or content
 - Light and Dark mode
-- Liquid Glass design
 - App icon made with Icon Composer
 
 ## Tech
